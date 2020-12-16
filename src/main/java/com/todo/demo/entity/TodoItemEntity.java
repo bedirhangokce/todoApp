@@ -1,8 +1,5 @@
 package com.todo.demo.entity;
 
-
-import com.sun.org.glassfish.gmbal.ManagedObject;
-
 import javax.persistence.*;
 import java.util.Date;
 

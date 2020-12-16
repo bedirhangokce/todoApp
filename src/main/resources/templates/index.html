@@ -8,6 +8,7 @@
     <title>Todo APP</title>
     <link href="css/bootstrap.css" rel="stylesheet" />
     <link href="css/style.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" rel="stylesheet" />
 </head>
 <body>
 <section id="header">
@@ -34,55 +35,57 @@
                 <label>What are you planning to do?</label>
                 <input type="text" class="form-control" id="description">
                 <label>When?</label>
-                <input type="date" class="form-control" id="date">
+                <input type="date" class="form-control" id="date-value">
             </div>
         </div>
 
 
     </div>
     <div class="d-flex justify-content-center">
-        <a class="btn btn-success btn-lg text-white todo-button" data-toggle="modal" data-target="#viewModal">Add New Todo</a>
+        <a onclick="return validateAdd()" class="btn btn-success btn-lg text-white todo-button" data-toggle="modal" data-target="#viewModal">Add New Todo</a>
     </div>
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-            <table class="table">
+            <table id="dtBasicExample" class="table table-striped table-sm" cellspacing="0" width="100%">
                 <thead>
                 <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Todo</th>
-                    <th scope="col">Deadline</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Update</th>
-                    <th scope="col">Delay</th>
-                    <th scope="col">Delete</th>
+                    <th class="th-sm" scope="col">Id</th>
+                    <th class="th-sm" scope="col">Todo</th>
+                    <th class="th-sm" scope="col">Create time</th>
+                    <th class="th-sm" scope="col">Deadline</th>
+                    <th class="th-sm" scope="col">Status</th>
+                    <th class="th-sm" scope="col">Update</th>
+                    <th class="th-sm" scope="col">Delay</th>
+                    <th class="th-sm" scope="col">Delete</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="todo : ${todos}">
                     <th scope="row" th:text=${todo.id}></th>
                     <td th:text=${todo.description}></td>
+                    <td th:text=${todo.createDate}></td>
                     <td th:text=${todo.date}></td>
                     <td th:text=${todo.status.name()}></td>
 
                     <td>
                         <form>
-                            <div class="form-group">
-                                <button th:value=${todo.id} class="btn btn-success btn-sm text-white done-button">Done!</button>
+                            <div>
+                                <button type="button" th:value=${todo.id} class="btn btn-success btn-sm text-white done-button">Done!</button>
                             </div>
                         </form>
                     </td>
                     <td>
                         <form>
-                            <div class="form-group">
-                                <button th:value=${todo.id} class="btn btn-sm btn-warning text-white delay-button">Delay</button>
+                            <div>
+                                <button type="button" th:value=${todo.id} class="btn btn-sm btn-warning text-white delay-button">Delay</button>
                             </div>
                         </form>
                     </td>
                     <td>
-                        <form >
+                        <form style="width: 7vw" >
                             <div>
-                                <button th:value=${todo.id} class="btn btn-danger btn-sm text-white delete-button">Delete</button>
+                                <button type="button" th:value=${todo.id} class="btn btn-danger btn-sm text-white delete-button">Delete</button>
                             </div>
                         </form>
                     </td>
@@ -97,5 +100,6 @@
 
 </body>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="js/todo.js"></script>
 </html>

@@ -1,7 +1,7 @@
 package com.todo.demo.entity;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table
@@ -9,24 +9,13 @@ public class TodoItemEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Date date;
     private String description;
+    private LocalDate date;
+    private LocalDate createDate;
     @Enumerated(EnumType.STRING)
     private Status status;
     @ManyToOne
     private TodoUserEntity user;
-
-    public TodoUserEntity getUser() {
-        return user;
-    }
-
-    public void setUser(TodoUserEntity user) {
-        this.user = user;
-    }
-
-    public Date getDate() { return date; }
-
-    public void setDate(Date date) { this.date = date; }
 
     public Long getId() {
         return id;
@@ -44,11 +33,35 @@ public class TodoItemEntity {
         this.description = description;
     }
 
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public LocalDate getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(LocalDate createDate) {
+        this.createDate = createDate;
+    }
+
     public Status getStatus() {
         return status;
     }
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public TodoUserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(TodoUserEntity user) {
+        this.user = user;
     }
 }

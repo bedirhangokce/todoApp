@@ -43,8 +43,7 @@ $(document).ready(function () {
                     setTimeout(function(){
                         location.reload();
                     }, 300);
-                }
-                ,
+                },
                 error:function (id) {
                     console.log("cannot add" +this.data);
                    alert("TODO couldn't add");
@@ -155,7 +154,7 @@ $(document).ready(function () {
                     location.reload(); // then reload the page.(3)
                 }, 300);
             },
-            error:function (id) {
+            error:function () {
                 console.log("cannot deleted" + username);
             }
         })

@@ -1,10 +1,8 @@
 package com.todo.demo.controller;
 
 import com.todo.demo.dto.NewTodoDTO;
-import com.todo.demo.dto.UserDTO;
 import com.todo.demo.entity.Member;
 import com.todo.demo.entity.TodoItemEntity;
-import com.todo.demo.repository.MemberRepository;
 import com.todo.demo.service.MemberService;
 import com.todo.demo.service.TodoItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 public class HomePageController {
@@ -39,7 +35,7 @@ public class HomePageController {
         List<Member> users = memberService.findAll();
         model.addAttribute("todos",todos);
         model.addAttribute("users",users);
-        return "todos";
+        return "index";
     }
     @RequestMapping(value = "/addTodo",method = RequestMethod.POST)
     @ResponseBody
@@ -73,5 +69,4 @@ public class HomePageController {
 
         memberService.deleteMember(username);
     }
-
 }

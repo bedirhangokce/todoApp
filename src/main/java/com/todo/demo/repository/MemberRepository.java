@@ -1,7 +1,6 @@
 package com.todo.demo.repository;
 
 import com.todo.demo.entity.Member;
-import com.todo.demo.entity.TodoItemEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

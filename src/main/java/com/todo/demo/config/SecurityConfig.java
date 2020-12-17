@@ -1,13 +1,10 @@
 package com.todo.demo.config;
 
-import com.todo.demo.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
-import org.springframework.security.authentication.dao.*;
 import org.springframework.security.config.annotation.authentication.builders.*;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.*;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -36,8 +33,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/","/home").permitAll()
-                .anyRequest().authenticated()
+        http.csrf().disable();
+        http.authorizeRequests().antMatchers( "/login").permitAll()
+                .antMatchers("/index").hasAnyRole("USER, ADMIN")
                 .and().formLogin().loginPage("/login").permitAll()
-                .defaultSuccessUrl("/todos").and().logout().logoutSuccessUrl("/logout");}
+                .defaultSuccessUrl("/").and().logout().logoutSuccessUrl("/login");
+    }
 }

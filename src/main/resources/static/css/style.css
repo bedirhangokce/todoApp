@@ -1,3 +1,9 @@
+
+.todo{
+    min-width: 30%;
+}
+
+
 table.dataTable thead .sorting:after,
 table.dataTable thead .sorting:before,
 table.dataTable thead .sorting_asc:after,

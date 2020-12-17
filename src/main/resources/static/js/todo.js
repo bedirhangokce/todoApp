@@ -1,10 +1,11 @@
 $(document).ready(function () {
+
     //Sort table
     $('#dtBasicExample').DataTable({
         "aaSorting": [],
         columnDefs: [{
             orderable: false,
-            targets: [4,5,6]
+            targets: [5,6,7]
         }]
     });
     $('.dataTables_length').addClass('bs-select');
@@ -13,18 +14,25 @@ $(document).ready(function () {
         var description = $('#description').val();
         var date = new Date($('#date-value').val());
         var createDate = new Date(Date.now())
-        var date = formatDate(date);
-        var createDate = formatDate(createDate)
+        date = formatDate(date);
+        createDate = formatDate(createDate)
         if (!$.trim(description)){
             alert("You have to define a TODO");
-        }else {
+        }
+        else if(date === "NaN-NaN-NaN"){
+            alert("You have to define a date");
+        }
+        else if(date < createDate){
+            alert("You cannot define date before today")
+        }
+        else {
             var obj = {
                 description:description,
                 date:date,
                 createDate:createDate
             };
             $.ajax( {
-                url:'/todo',
+                url:'/addTodo',
                 method:'POST',
                 contentType:'application/json',
                 data:JSON.stringify(obj),
@@ -37,12 +45,10 @@ $(document).ready(function () {
                 ,
                 error:function (id) {
                     console.log("cannot add" +this.data);
-                    alert("You have to define a date")
+                   alert("TODO couldn't add");
                 }
             });
         }
-
-
     });
     //Change status to done
     $('.done-button').click(function () {
@@ -50,8 +56,8 @@ $(document).ready(function () {
         $.ajax({
             url:'/todo/' + id,
             method: 'PUT',
-            success: function (id) {
-                console.log("done" + id);
+            success: function () {
+                console.log("done: " + id);
                 setTimeout(function(){// wait for 5 secs(2)
                     location.reload(); // then reload the page.(3)
                 }, 300);
@@ -68,8 +74,8 @@ $(document).ready(function () {
             url:'/todoDelay/' + id,
             async: false,
             method: 'PUT',
-            success: function (id) {
-                console.log("delayed" + id);
+            success: function () {
+                console.log("delayed: " + id);
                 setTimeout(function(){// wait for 5 secs(2)
                     location.reload(); // then reload the page.(3)
                 }, 300);
@@ -86,8 +92,8 @@ $(document).ready(function () {
             url:'/todoDelete/' + id,
             method: 'DELETE',
             contentType: 'application/json',
-            success: function (id) {
-                console.log("deleted" +id);
+            success: function () {
+                console.log("deleted: " + id);
                 setTimeout(function(){// wait for 5 secs(2)
                     location.reload(); // then reload the page.(3)
                 }, 300);
@@ -110,4 +116,4 @@ function formatDate(date) {
     if (day < 10)
         day = '0' + day;
     return [year, month, day].join('-').toString();
-}
+};

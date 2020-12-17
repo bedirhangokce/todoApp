@@ -15,9 +15,9 @@ public class TodoItemEntity {
     @Enumerated(EnumType.STRING)
     private Status status;
     @ManyToOne
-    private TodoUserEntity user;
+    private UserEntity user;
 
-    public Long getId() {
+    public Long getId(){
         return id;
     }
 
@@ -57,11 +57,11 @@ public class TodoItemEntity {
         this.status = status;
     }
 
-    public TodoUserEntity getUser() {
+    public UserEntity getUser() {
         return user;
     }
 
-    public void setUser(TodoUserEntity user) {
+    public void setUser(UserEntity user) {
         this.user = user;
     }
 }

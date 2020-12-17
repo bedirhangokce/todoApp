@@ -21,7 +21,7 @@ public class TodoItemService {
     public TodoItemEntity save(NewTodoDTO dto){
         TodoItemEntity entity= new TodoItemEntity();
         entity.setDescription(dto.getDescription());
-        entity.setStatus(Status.UNDONE);
+        entity.setStatus(dto.getStatus());
         entity.setCreateDate(dto.getCreateDate());
         entity.setDate(dto.getDate());
 

@@ -14,8 +14,7 @@ public class TodoItemEntity {
     private LocalDate createDate;
     @Enumerated(EnumType.STRING)
     private Status status;
-    @ManyToOne
-    private UserEntity user;
+    private String owner;
 
     public Long getId(){
         return id;
@@ -57,11 +56,11 @@ public class TodoItemEntity {
         this.status = status;
     }
 
-    public UserEntity getUser() {
-        return user;
+    public String getOwner() {
+        return owner;
     }
 
-    public void setUser(UserEntity user) {
-        this.user = user;
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 }

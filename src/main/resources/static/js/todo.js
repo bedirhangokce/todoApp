@@ -5,7 +5,7 @@ $(document).ready(function () {
         "aaSorting": [],
         columnDefs: [{
             orderable: false,
-            targets: [5,6,7]
+            targets: [6,7,8]
         }]
     });
     $('.dataTables_length').addClass('bs-select');
@@ -13,6 +13,7 @@ $(document).ready(function () {
     $('.todo-button').click(function () {
         var description = $('#description').val();
         var date = new Date($('#date-value').val());
+        var status = $('#statusSelect').val();
         var createDate = new Date(Date.now())
         date = formatDate(date);
         createDate = formatDate(createDate)
@@ -29,7 +30,8 @@ $(document).ready(function () {
             var obj = {
                 description:description,
                 date:date,
-                createDate:createDate
+                createDate:createDate,
+                status:status
             };
             $.ajax( {
                 url:'/addTodo',
@@ -38,8 +40,8 @@ $(document).ready(function () {
                 data:JSON.stringify(obj),
                 success: function (data) {
                     console.log(data)
-                    setTimeout(function(){// wait for 5 secs(2)
-                        location.reload(); // then reload the page.(3)
+                    setTimeout(function(){
+                        location.reload();
                     }, 300);
                 }
                 ,
@@ -58,8 +60,8 @@ $(document).ready(function () {
             method: 'PUT',
             success: function () {
                 console.log("done: " + id);
-                setTimeout(function(){// wait for 5 secs(2)
-                    location.reload(); // then reload the page.(3)
+                setTimeout(function(){
+                    location.reload();
                 }, 300);
             },
             error:function (id) {
@@ -76,8 +78,8 @@ $(document).ready(function () {
             method: 'PUT',
             success: function () {
                 console.log("delayed: " + id);
-                setTimeout(function(){// wait for 5 secs(2)
-                    location.reload(); // then reload the page.(3)
+                setTimeout(function(){
+                    location.reload();
                 }, 300);
             },
             error:function (id) {
@@ -94,8 +96,8 @@ $(document).ready(function () {
             contentType: 'application/json',
             success: function () {
                 console.log("deleted: " + id);
-                setTimeout(function(){// wait for 5 secs(2)
-                    location.reload(); // then reload the page.(3)
+                setTimeout(function(){
+                    location.reload();
                 }, 300);
             },
             error:function (id) {
@@ -104,7 +106,60 @@ $(document).ready(function () {
         })
     })
 
+    $('#user-button').click(function () {
+        const username = $('#addUserUsername').val();
+        const password = $('#addUserPassword').val();
+        const role = $('#addUserRole').val();
+        var obj = {
+            username:username,
+            password:password,
+            role:role
+        };
+        if (!$.trim(username)){
+            console.log("Enter a valid username")
+        }
+        else if(!$.trim(password)){
+            console.log("Enter a valid password")
+        }
+        else {
 
+            $.ajax({
+                url: '/addUser',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(obj),
+                success: function (data) {
+                    console.log(data)
+                    setTimeout(function () {// wait for 5 secs(2)
+                        location.reload(); // then reload the page.(3)
+                    }, 300);
+                }
+                ,
+                error: function (id) {
+                    console.log("cannot add" + this.data);
+                    alert("User couldn't add");
+                }
+            });
+        }
+    })
+    //Delete user
+    $('.delete-user-button').click(function () {
+        const username = $(this).val();
+        $.ajax({
+            url:'/userDelete/' + username,
+            method: 'DELETE',
+            contentType: 'application/json',
+            success: function () {
+                console.log("deleted: " + username);
+                setTimeout(function(){// wait for 5 secs(2)
+                    location.reload(); // then reload the page.(3)
+                }, 300);
+            },
+            error:function (id) {
+                console.log("cannot deleted" + username);
+            }
+        })
+    })
 });
 function formatDate(date) {
     var day = date.getDate();

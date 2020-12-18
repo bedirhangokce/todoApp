@@ -10,5 +10,4 @@ public class HomePageController {
     public ModelAndView defaultHome() {
         return new ModelAndView("home");
     }
-
 }

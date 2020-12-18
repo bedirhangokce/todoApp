@@ -139,13 +139,12 @@ $(document).ready(function () {
             role:role
         };
         if (!$.trim(username)){
-            console.log("Enter a valid username")
+            alert("Enter a valid username");
         }
         else if(!$.trim(password)){
-            console.log("Enter a valid password")
+            alert("Enter a valid password");
         }
         else {
-
             $.ajax({
                 url: '/addUser',
                 method: 'POST',

@@ -27,16 +27,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // TODO Auto-generated method stub
         return new BCryptPasswordEncoder();
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
+
         http.authorizeRequests().antMatchers( "/login").permitAll()
                 .antMatchers("/index").hasAnyRole("USER, ADMIN")
                 .and().formLogin().loginPage("/login").permitAll()
-                .defaultSuccessUrl("/index").and().logout().logoutSuccessUrl("/login");
+                .defaultSuccessUrl("/index")
+                .and()
+                .logout().logoutUrl("/logout").logoutSuccessUrl("/login");
     }
 }

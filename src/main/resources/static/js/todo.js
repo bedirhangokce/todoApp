@@ -1,14 +1,16 @@
 $(document).ready(function () {
-
+    //CSRF protection
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
     //Sort table
     $('#dtBasicExample').DataTable({
-        "aaSorting": [],
         columnDefs: [{
             orderable: false,
             targets: [6,7,8]
         }]
     });
     $('.dataTables_length').addClass('bs-select');
+
     //Add entity
     $('.todo-button').click(function () {
         var description = $('#description').val();
@@ -16,6 +18,7 @@ $(document).ready(function () {
         var status = $('#statusSelect').val();
         var owner = $('#todoUsername').val()
         var createDate = new Date(Date.now());
+
         date = formatDate(date);
         createDate = formatDate(createDate)
         console.log(owner)
@@ -42,6 +45,10 @@ $(document).ready(function () {
                 url:'/addTodo',
                 method:'POST',
                 contentType:'application/json',
+                //CSRF Protection
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader(header, token);
+                },
                 success: function (data) {
                     console.log(data)
                     setTimeout(function(){
@@ -62,6 +69,10 @@ $(document).ready(function () {
         $.ajax({
             url:'/todo/' + id,
             method: 'PUT',
+            //CSRF Protection
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(header, token);
+            },
             success: function () {
                 console.log("done: " + id);
                 setTimeout(function(){
@@ -80,6 +91,10 @@ $(document).ready(function () {
             url:'/todoDelay/' + id,
             async: false,
             method: 'PUT',
+            //CSRF Protection
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(header, token);
+            },
             success: function () {
                 console.log("delayed: " + id);
                 setTimeout(function(){
@@ -98,6 +113,10 @@ $(document).ready(function () {
             url:'/todoDelete/' + id,
             method: 'DELETE',
             contentType: 'application/json',
+            //CSRF Protection
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(header, token);
+            },
             success: function () {
                 console.log("deleted: " + id);
                 setTimeout(function(){
@@ -109,7 +128,7 @@ $(document).ready(function () {
             }
         })
     })
-
+    //Add User
     $('#user-button').click(function () {
         const username = $('#addUserUsername').val();
         const password = $('#addUserPassword').val();
@@ -132,6 +151,10 @@ $(document).ready(function () {
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(obj),
+                //CSRF Protection
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader(header, token);
+                },
                 success: function (data) {
                     console.log(data)
                     setTimeout(function () {// wait for 5 secs(2)
@@ -153,6 +176,10 @@ $(document).ready(function () {
             url:'/userDelete/' + username,
             method: 'DELETE',
             contentType: 'application/json',
+            //CSRF Protection
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(header, token);
+            },
             success: function () {
                 console.log("deleted: " + username);
                 setTimeout(function(){// wait for 5 secs(2)
@@ -165,6 +192,7 @@ $(document).ready(function () {
         })
     })
 });
+//Format transition for Java LocalDate
 function formatDate(date) {
     var day = date.getDate();
     var month =date.getMonth();

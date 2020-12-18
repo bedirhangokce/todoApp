@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface TodoItemRepository extends JpaRepository<TodoItemEntity,Long> {
     List<TodoItemEntity> findAll();
+    List<TodoItemEntity> findAllByOwner(String owner);
 }

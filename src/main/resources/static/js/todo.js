@@ -14,9 +14,11 @@ $(document).ready(function () {
         var description = $('#description').val();
         var date = new Date($('#date-value').val());
         var status = $('#statusSelect').val();
-        var createDate = new Date(Date.now())
+        var owner = $('#todoUsername').val()
+        var createDate = new Date(Date.now());
         date = formatDate(date);
         createDate = formatDate(createDate)
+        console.log(owner)
         if (!$.trim(description)){
             alert("You have to define a TODO");
         }
@@ -31,19 +33,22 @@ $(document).ready(function () {
                 description:description,
                 date:date,
                 createDate:createDate,
+                owner:owner,
                 status:status
+
             };
             $.ajax( {
+                data: JSON.stringify(obj),
                 url:'/addTodo',
                 method:'POST',
                 contentType:'application/json',
-                data:JSON.stringify(obj),
                 success: function (data) {
                     console.log(data)
                     setTimeout(function(){
                         location.reload();
                     }, 300);
-                },
+                }
+                ,
                 error:function (id) {
                     console.log("cannot add" +this.data);
                    alert("TODO couldn't add");
@@ -154,7 +159,7 @@ $(document).ready(function () {
                     location.reload(); // then reload the page.(3)
                 }, 300);
             },
-            error:function () {
+            error:function (id) {
                 console.log("cannot deleted" + username);
             }
         })

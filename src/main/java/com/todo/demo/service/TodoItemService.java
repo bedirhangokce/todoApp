@@ -17,6 +17,10 @@ public class TodoItemService {
     public List<TodoItemEntity> findAll(){
         return todoItemRepository.findAll();
     }
+    public List<TodoItemEntity> findAllByOwner(String owner){
+        return todoItemRepository.findAllByOwner(owner);
+    }
+
 
     public TodoItemEntity save(NewTodoDTO dto){
         TodoItemEntity entity= new TodoItemEntity();
@@ -24,7 +28,7 @@ public class TodoItemService {
         entity.setStatus(dto.getStatus());
         entity.setCreateDate(dto.getCreateDate());
         entity.setDate(dto.getDate());
-
+        entity.setOwner(dto.getOwner());
         entity = todoItemRepository.save(entity);
         return entity;
     }

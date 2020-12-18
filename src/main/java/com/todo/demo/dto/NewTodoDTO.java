@@ -10,6 +10,15 @@ public class NewTodoDTO {
     private LocalDate date;
     private LocalDate createDate;
     private Status status;
+    private Object owner;
+
+    public String getOwner() {
+        return owner.toString();
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
 
     public Status getStatus() {
         return status;

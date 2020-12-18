@@ -22,7 +22,6 @@ public class MemberService {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         member.setPassword(encoder.encode(member.getPassword()));
         memberRepository.save(member);
-        System.out.println("added");
         return member;
     }
     public void deleteMember(String username){

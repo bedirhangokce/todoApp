@@ -171,24 +171,31 @@ $(document).ready(function () {
     //Delete user
     $('.delete-user-button').click(function () {
         const username = $(this).val();
-        $.ajax({
-            url:'/userDelete/' + username,
-            method: 'DELETE',
-            contentType: 'application/json',
-            //CSRF Protection
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader(header, token);
-            },
-            success: function () {
-                console.log("deleted: " + username);
-                setTimeout(function(){// wait for 5 secs(2)
-                    location.reload(); // then reload the page.(3)
-                }, 300);
-            },
-            error:function (id) {
-                console.log("cannot deleted" + username);
-            }
-        })
+        const logged = $('#todoUsername').val();
+        console.log(logged)
+        if (username.localeCompare(logged) !== 0){
+            $.ajax({
+                url:'/userDelete/' + username,
+                method: 'DELETE',
+                contentType: 'application/json',
+                //CSRF Protection
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader(header, token);
+                },
+                success: function () {
+                    console.log("deleted: " + username);
+                    setTimeout(function(){// wait for 5 secs(2)
+                        location.reload(); // then reload the page.(3)
+                    }, 300);
+                },
+                error:function (id) {
+                    console.log("cannot deleted" + username);
+                }
+            })
+        }else {
+            alert("You cannot delete yourself!")
+        }
+
     })
 });
 //Format transition for Java LocalDate

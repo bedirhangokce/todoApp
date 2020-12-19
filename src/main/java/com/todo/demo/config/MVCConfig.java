@@ -25,7 +25,7 @@ public class MVCConfig implements WebMvcConfigurer {
         resolver.setPrefix("templates/");
         resolver.setSuffix(".html");
         resolver.setCharacterEncoding("UTF-8");
-        resolver.setTemplateMode("HTML");
+        resolver.setTemplateMode("HTML5");
 
         SpringTemplateEngine engine = new SpringTemplateEngine();
         engine.setTemplateResolver(resolver);

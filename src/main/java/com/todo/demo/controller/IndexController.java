@@ -26,6 +26,7 @@ public class IndexController {
         String username = principal.getName();
         List<Member> users = memberService.findAll();
         List<TodoItemEntity> todos;
+        //If logged in user an admin show all todos Else just logged in user's
         if (principal.getAuthorities().toString().contains("ROLE_ADMIN")){
             todos = todoItemService.findAll();
         }else {
@@ -35,13 +36,10 @@ public class IndexController {
         model.addAttribute("users",users);
         return "index";
     }
+    //Todos add and manipulate
     @RequestMapping(value = "/addTodo",method = RequestMethod.POST)
     @ResponseBody
     public TodoItemEntity save(@RequestBody NewTodoDTO dto){ return todoItemService.save(dto); }
-
-    @RequestMapping(value = "/addUser",method = RequestMethod.POST)
-    @ResponseBody
-    public Member save(@RequestBody Member member){ return memberService.save(member); }
 
     @RequestMapping(value = "/todo/{todo-id}",method = RequestMethod.PUT)
     @ResponseBody
@@ -57,9 +55,12 @@ public class IndexController {
 
     @RequestMapping(value = "/todoDelete/{todo-id}",method = RequestMethod.DELETE)
     @ResponseBody
-    public void delete(@PathVariable("todo-id") long id) {
-        todoItemService.delete(id);
-    }
+    public void delete(@PathVariable("todo-id") long id) { todoItemService.delete(id); }
+
+    //Member add and manipulate
+    @RequestMapping(value = "/addUser",method = RequestMethod.POST)
+    @ResponseBody
+    public Member save(@RequestBody Member member){ return memberService.save(member); }
 
     @RequestMapping(value = "/userDelete/{username}",method = RequestMethod.DELETE)
     @ResponseBody

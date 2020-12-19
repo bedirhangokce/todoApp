@@ -14,6 +14,7 @@ public class TodoItemService {
     @Autowired
     private TodoItemRepository todoItemRepository;
 
+    //Database queires for get todos
     public List<TodoItemEntity> findAll(){
         return todoItemRepository.findAll();
     }
@@ -21,7 +22,7 @@ public class TodoItemService {
         return todoItemRepository.findAllByOwner(owner);
     }
 
-
+    //Adding todos
     public TodoItemEntity save(NewTodoDTO dto){
         TodoItemEntity entity= new TodoItemEntity();
         entity.setDescription(dto.getDescription());

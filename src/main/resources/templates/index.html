@@ -17,6 +17,11 @@
     <a class="navbar-brand">Welcome <span id="username-value" sec:authentication="name">Username</span> |
         <span th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"> You are an ADMIN</span>
         <span th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">You are a USER</span>
+
+        <input id="user-role"
+               type="text"
+               style="display: none"
+               th:value="${#authentication.principal.authorities}" name="todoUsername" />
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -34,7 +39,7 @@
 </nav>
 </section>
 
-<div class="modal fade" id="viewAddTodo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}" class="modal fade" id="viewAddTodo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -72,49 +77,57 @@
     </div>
 </div>
 
-    <div class="d-flex justify-content-center">
-        <a class="btn btn-success btn-lg text-white" data-toggle="modal" data-target="#viewAddTodo">Add New Todo</a>
-    </div>
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-            <table id="dtBasicExample" class="table table-striped" cellspacing="0" width="100%">
+            <div id="date-filter">
+                <div>
+                    <label for="datepicker-min">From:</label>
+                    <input class="date_range_filter form-control" type="date" id="datepicker-min" />
+                </div>
+                <div>
+                    <label for="datepicker-max">To:</label>
+                    <input class="date_range_filter form-control" type="date" id="datepicker-max" />
+                </div>
+            </div>
+            <table id="todoTable" class="table table-striped" cellspacing="0" width="100%">
                 <thead>
                 <tr>
                     <th class="th-sm" scope="col">Id</th>
                     <th class="th-sm todo" scope="col">Todo</th>
-                    <th class="th-sm" scope="col">Owner</th>
                     <th class="th-sm" scope="col">Create</th>
                     <th class="th-sm" scope="col">Deadline</th>
+                    <th th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="th-sm" scope="col">Owner</th>
                     <th class="th-sm" scope="col">Status</th>
-                    <th class="th-sm" scope="col">Update</th>
-                    <th class="th-sm" scope="col">Delay</th>
-                    <th class="th-sm" scope="col">Delete</th>
+                    <th th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}" class="th-sm" scope="col">Update</th>
+                    <th th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}" class="th-sm" scope="col">Delay</th>
+                    <th th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}" class="th-sm" scope="col">Delete</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="todo : ${todos}">
                     <th scope="row" th:text=${todo.id}></th>
                     <td th:text=${todo.description}></td>
-                    <td th:text=${todo.owner}></td>
                     <td th:text=${todo.createDate}></td>
                     <td th:text=${todo.date}></td>
+                    <td th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" th:text=${todo.owner}></td>
+
                     <td th:text=${todo.status.name()}></td>
-                    <td>
+                    <td th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">
                         <form>
                             <div>
                                 <button type="button" th:value=${todo.id} class="btn btn-success btn-sm text-white done-button">Done!</button>
                             </div>
                         </form>
                     </td>
-                    <td>
+                    <td th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">
                         <form>
                             <div>
                                 <button type="button" th:value=${todo.id} class="btn btn-sm btn-warning text-white delay-button">Delay</button>
                             </div>
                         </form>
                     </td>
-                    <td>
+                    <td th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">
                         <form style="width: 7vw" >
                             <div>
                                 <button type="button" th:value=${todo.id} class="btn btn-danger btn-sm text-white delete-button">Delete</button>
@@ -124,6 +137,9 @@
                 </tr>
                 </tbody>
             </table>
+            <div class="d-flex justify-content-center add-todo" th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">
+                <a class="btn btn-success btn-lg text-white" data-toggle="modal" data-target="#viewAddTodo">Add New Todo</a>
+            </div>
         </div>
         <div class="col-md-2"></div>
     </div>
@@ -181,8 +197,8 @@
                             <div class="form-group">
                                 <label >Role</label>
                                 <select class="form-control" id="addUserRole">
-                                    <option>ADMIN</option>
                                     <option>USER</option>
+                                    <option>ADMIN</option>
                                 </select>
                             </div>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -203,4 +219,5 @@
 <script src="js/todo.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
 </html>

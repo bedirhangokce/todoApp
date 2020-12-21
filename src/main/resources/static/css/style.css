@@ -13,6 +13,23 @@
 .user-list{
     padding-top: 8vh;
 }
+#date-filter{
+    display: flex;
+    flex-direction: row;
+}
+#date-filter div{
+    margin: 0px 25px 15px 0px;
+}
+div.row.user-list{
+    padding-top: 40px;
+}
+#createUser{
+    padding-bottom: 5vh;
+    padding-top: 3vh;
+}
+.add-todo{
+    padding-top: 3vh;
+}
 
 table.dataTable thead .sorting:after,
 table.dataTable thead .sorting:before,

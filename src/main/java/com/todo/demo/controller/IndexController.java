@@ -67,4 +67,6 @@ public class IndexController {
     public void deleteUser(@PathVariable("username") String username) {
         memberService.deleteMember(username);
     }
+
+    //TODO add change user password
 }

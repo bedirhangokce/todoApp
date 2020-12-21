@@ -1,15 +1,72 @@
 $(document).ready(function () {
     //CSRF protection
+    var role = $('#user-role').val()
     var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
     //Sort table
-    $('#dtBasicExample').DataTable({
-        columnDefs: [{
-            orderable: false,
-            targets: [6,7,8]
-        }]
-    });
+    console.log(role)
+    if (role === "[ROLE_USER]"){
+        console.log("user")
+        $('#todoTable').DataTable({
+            columnDefs: [{
+                orderable: false,
+                targets: [5,6,7]
+            }]
+        });
+    }
+    else {
+        $('#todoTable').DataTable({
+            columnDefs: [{
+                orderable: true,
+            }]
+        });
+    }
+
+
     $('.dataTables_length').addClass('bs-select');
+
+    $.fn.dataTable.ext.search.push(
+        function( settings, data, dataIndex ) {
+            var one =$('#datepicker-min').val();
+            var min = new Date(one);
+            var two =$('#datepicker-max').val();
+            var max = new Date(two);
+            var date = new Date(data[3]); // use data for the age column
+            if ( ( isNaN( min ) && isNaN( max ) ) ||
+                ( isNaN( min ) && date <= max ) ||
+                ( min <= date   && isNaN( max ) ) ||
+                ( min <= date   && date <= max ) )
+            {
+                return true;
+            }
+            return false;
+        }
+    );
+
+    $(document).ready(function() {
+        var table = $('#todoTable').DataTable();
+
+        // Event listener to the two range filtering inputs to redraw on input
+        $('#datepicker-min, #datepicker-max').change( function() {
+            table.draw();
+        } );
+    } );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     //Add entity
     $('.todo-button').click(function () {
@@ -210,3 +267,7 @@ function formatDate(date) {
         day = '0' + day;
     return [year, month, day].join('-').toString();
 };
+
+
+
+

@@ -30,6 +30,9 @@ div.row.user-list{
 .add-todo{
     padding-top: 3vh;
 }
+.row{
+    justify-content: space-around;
+}
 
 table.dataTable thead .sorting:after,
 table.dataTable thead .sorting:before,

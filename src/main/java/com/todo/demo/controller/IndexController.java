@@ -62,6 +62,10 @@ public class IndexController {
     @ResponseBody
     public Member save(@RequestBody Member member){ return memberService.save(member); }
 
+    @RequestMapping(value = "/changeRole/{username}",method = RequestMethod.PUT)
+    @ResponseBody
+    public void delay(@PathVariable("username")String username){ memberService.changeRole(username); }
+
     @RequestMapping(value = "/userDelete/{username}",method = RequestMethod.DELETE)
     @ResponseBody
     public void deleteUser(@PathVariable("username") String username) {

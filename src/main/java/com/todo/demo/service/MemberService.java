@@ -35,6 +35,14 @@ public class MemberService {
         memberRepository.save(member);
         return member;
     }
+    public void changeRole(String username){
+        Member member = memberRepository.findMemberByUsername(username);
+        if (member.getRole().equals("USER")){
+            member.setRole("ADMIN");
+        }
+        else member.setRole("USER");
+        memberRepository.save(member);
+    }
 
     public void deleteMember(String username){
         List<TodoItemEntity> itemList = todoItemRepository.findAllByOwner(username);

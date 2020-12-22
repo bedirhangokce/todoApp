@@ -26,7 +26,11 @@
         <input id="user-role"
                type="text"
                style="display: none"
-               th:value="${#authentication.principal.authorities}" name="todoUsername" />
+               th:value="${#authentication.principal.authorities}" />
+        <input class="form-control"
+               type="text"
+               style="display: none"
+               th:value="${#authentication.getPrincipal().getUsername()}" id="todoUsername" name="todoUsername" />
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -62,10 +66,7 @@
                         <label for="date-value">When?</label>
                         <input type="date" class="form-control"  id="date-value">
                         <!--Get logged in user name-->
-                        <input class="form-control"
-                               type="text"
-                               style="display: none"
-                               th:value="${#authentication.getPrincipal().getUsername()}" id="todoUsername" name="todoUsername" />
+
                     </div>
                     <div class="form-group">
                         <label for="statusSelect" >Status</label>
@@ -109,7 +110,7 @@
                     <th class="th-sm" scope="col">Status</th>
                     <th th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}" class="th-sm" scope="col">Update</th>
                     <th th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}" class="th-sm" scope="col">Delay</th>
-                    <th  class="th-sm" scope="col">Delete</th>
+                    <th th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}" class="th-sm" scope="col">Delete</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -135,7 +136,7 @@
                             </div>
                         </form>
                     </td>
-                    <td >
+                    <td th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">
                         <form style="width: 7vw" >
                             <div>
                                 <button type="button" th:value=${todo.id} class="btn btn-danger btn-sm text-white delete-button">Delete</button>
@@ -160,6 +161,7 @@
                 <th class="th-sm" scope="col">Username</th>
                 <th class="th-sm" scope="col">Password</th>
                 <th class="th-sm" scope="col">Role</th>
+                <th class="th-sm" scope="col">Change Role</th>
                 <th class="th-sm" scope="col">Delete</th>
             </tr>
             </thead>
@@ -171,10 +173,18 @@
                 <td>
                     <form style="" >
                         <div>
+                            <button type="button" th:value=${users.username} class="btn btn-warning btn-sm text-white change-role-button">Change</button>
+                        </div>
+                    </form>
+                </td>
+                <td>
+                    <form style="" >
+                        <div>
                             <button type="button" th:value=${users.username} class="btn btn-danger btn-sm text-white delete-user-button">Delete</button>
                         </div>
                     </form>
                 </td>
+
             </tr>
             </tbody>
         </table>

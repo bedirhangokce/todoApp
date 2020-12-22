@@ -1,10 +1,11 @@
 $(document).ready(function () {
     //CSRF protection
-    var role = $('#user-role').val()
+    var logged = $('#todoUsername').val();
+    console.log(logged)
+    var role = $('#user-role').val();
     var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
     //Sort table
-    console.log(role)
     if (role === "[ROLE_USER]"){
         console.log("user")
         $('#todoTable').DataTable({
@@ -21,17 +22,16 @@ $(document).ready(function () {
             }]
         });
     }
-
-
+    //Date Filter
     $('.dataTables_length').addClass('bs-select');
 
     $.fn.dataTable.ext.search.push(
-        function( settings, data, dataIndex ) {
+        function( settings, data) {
             var one =$('#datepicker-min').val();
             var min = new Date(one);
             var two =$('#datepicker-max').val();
             var max = new Date(two);
-            var date = new Date(data[3]); // use data for the age column
+            var date = new Date(data[3]); // use data for the date column
             if ( ( isNaN( min ) && isNaN( max ) ) ||
                 ( isNaN( min ) && date <= max ) ||
                 ( min <= date   && isNaN( max ) ) ||
@@ -45,35 +45,18 @@ $(document).ready(function () {
 
     $(document).ready(function() {
         var table = $('#todoTable').DataTable();
-
-        // Event listener to the two range filtering inputs to redraw on input
+        // Event listener to the two range filtering
         $('#datepicker-min, #datepicker-max').change( function() {
             table.draw();
         } );
     } );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     //Add entity
     $('.todo-button').click(function () {
         var description = $('#description').val();
         var date = new Date($('#date-value').val());
         var status = $('#statusSelect').val();
-        var owner = $('#todoUsername').val()
+        var owner = $('#todoUsername').val();
         var createDate = new Date(Date.now());
 
         date = formatDate(date);
@@ -224,6 +207,33 @@ $(document).ready(function () {
                 }
             });
         }
+    })
+    //Change role of User
+    $('.change-role-button').click(function () {
+        const username = $(this).val();
+        const logged = $('#todoUsername').val();
+        if (username != logged){
+            $.ajax({
+                url:'/changeRole/' + username,
+                method: 'PUT',
+                //CSRF Protection
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader(header, token);
+                },
+                success: function () {
+                    console.log("changed role of : " + username);
+                    setTimeout(function(){
+                        location.reload();
+                    }, 300);
+                },
+                error:function (id) {
+                    console.log("cannot change role of " + username);
+                }
+            })
+        }else{
+            alert("You cannot change your role!");
+        }
+
     })
     //Delete user
     $('.delete-user-button').click(function () {

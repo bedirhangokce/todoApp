@@ -93,7 +93,7 @@ $(document).ready(function () {
                     console.log(data)
                     setTimeout(function(){
                         location.reload();
-                    }, 300);
+                    }, 100);
                 }
                 ,
                 error:function (id) {
@@ -117,7 +117,7 @@ $(document).ready(function () {
                 console.log("done: " + id);
                 setTimeout(function(){
                     location.reload();
-                }, 300);
+                }, 100);
             },
             error:function (id) {
                 console.log("cannot done" + id);
@@ -139,7 +139,7 @@ $(document).ready(function () {
                 console.log("delayed: " + id);
                 setTimeout(function(){
                     location.reload();
-                }, 300);
+                }, 100);
             },
             error:function (id) {
                 console.log("cannot delayed" + id);
@@ -161,7 +161,7 @@ $(document).ready(function () {
                 console.log("deleted: " + id);
                 setTimeout(function(){
                     location.reload();
-                }, 300);
+                }, 100);
             },
             error:function (id) {
                 console.log("cannot deleted" + id);
@@ -198,7 +198,7 @@ $(document).ready(function () {
                     console.log(data)
                     setTimeout(function () {// wait for 5 secs(2)
                         location.reload(); // then reload the page.(3)
-                    }, 300);
+                    }, 100);
                 }
                 ,
                 error: function (id) {
@@ -224,7 +224,7 @@ $(document).ready(function () {
                     console.log("changed role of : " + username);
                     setTimeout(function(){
                         location.reload();
-                    }, 300);
+                    }, 100);
                 },
                 error:function (id) {
                     console.log("cannot change role of " + username);
@@ -253,7 +253,7 @@ $(document).ready(function () {
                     console.log("deleted: " + username);
                     setTimeout(function(){// wait for 5 secs(2)
                         location.reload(); // then reload the page.(3)
-                    }, 300);
+                    }, 100);
                 },
                 error:function (id) {
                     console.log("cannot deleted" + username);

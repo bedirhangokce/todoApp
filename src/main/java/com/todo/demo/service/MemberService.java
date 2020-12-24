@@ -25,7 +25,6 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-    //TODO Add password change
     public Member save(Member dto){
         Member member = new Member();
         member.setUsername(dto.getUsername());

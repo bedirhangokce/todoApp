@@ -1,36 +1,49 @@
-*{
+* {
     margin: 0;
     padding: 0;
 }
 
-.todo{
+.todo {
     min-width: 30%;
 }
-.createUser{
+#hedaer nav{
+    display: flex;
+    justify-content: space-between;
+}
+.createUser {
     width: 50%;
     padding-top: 50px;
 }
-.user-list{
+#logout{
+    right: 20px;
+}
+.user-list {
     padding-top: 8vh;
 }
-#date-filter{
+
+#date-filter {
     display: flex;
     flex-direction: row;
 }
-#date-filter div{
+
+#date-filter div {
     margin: 0px 25px 15px 0px;
 }
-div.row.user-list{
+
+div.row.user-list {
     padding-top: 40px;
 }
-#createUser{
+
+#createUser {
     padding-bottom: 5vh;
     padding-top: 3vh;
 }
-.add-todo{
+
+.add-todo {
     padding-top: 3vh;
 }
-.row{
+
+.row {
     justify-content: space-around;
 }
 
@@ -46,4 +59,3 @@ table.dataTable thead .sorting_desc_disabled:after,
 table.dataTable thead .sorting_desc_disabled:before {
     bottom: .5em;
 }
-

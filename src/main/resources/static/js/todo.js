@@ -6,12 +6,12 @@ $(document).ready(function () {
     var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
     //Sort table
-    if (role === "[ROLE_USER]"){
+    if (role === "[ROLE_USER]") {
         console.log("user")
         $('#todoTable').DataTable({
             columnDefs: [{
                 orderable: false,
-                targets: [5,6,7]
+                targets: [5, 6, 7]
             }]
         });
     }
@@ -26,30 +26,29 @@ $(document).ready(function () {
     $('.dataTables_length').addClass('bs-select');
 
     $.fn.dataTable.ext.search.push(
-        function( settings, data) {
-            var one =$('#datepicker-min').val();
+        function (settings, data) {
+            var one = $('#datepicker-min').val();
             var min = new Date(one);
-            var two =$('#datepicker-max').val();
+            var two = $('#datepicker-max').val();
             var max = new Date(two);
             var date = new Date(data[3]); // use data for the date column
-            if ( ( isNaN( min ) && isNaN( max ) ) ||
-                ( isNaN( min ) && date <= max ) ||
-                ( min <= date   && isNaN( max ) ) ||
-                ( min <= date   && date <= max ) )
-            {
+            if ((isNaN(min) && isNaN(max)) ||
+                (isNaN(min) && date <= max) ||
+                (min <= date && isNaN(max)) ||
+                (min <= date && date <= max)) {
                 return true;
             }
             return false;
         }
     );
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         var table = $('#todoTable').DataTable();
         // Event listener to the two range filtering
-        $('#datepicker-min, #datepicker-max').change( function() {
+        $('#datepicker-min, #datepicker-max').change(function () {
             table.draw();
-        } );
-    } );
+        });
+    });
 
     //Add entity
     $('.todo-button').click(function () {
@@ -62,43 +61,43 @@ $(document).ready(function () {
         date = formatDate(date);
         createDate = formatDate(createDate)
         console.log(owner)
-        if (!$.trim(description)){
+        if (!$.trim(description)) {
             alert("You have to define a TODO");
         }
-        else if(date === "NaN-NaN-NaN"){
+        else if (date === "NaN-NaN-NaN") {
             alert("You have to define a date");
         }
-        else if(date < createDate){
+        else if (date < createDate) {
             alert("You cannot define date before today")
         }
         else {
             var obj = {
-                description:description,
-                date:date,
-                createDate:createDate,
-                owner:owner,
-                status:status
+                description: description,
+                date: date,
+                createDate: createDate,
+                owner: owner,
+                status: status
 
             };
-            $.ajax( {
+            $.ajax({
                 data: JSON.stringify(obj),
-                url:'/addTodo',
-                method:'POST',
-                contentType:'application/json',
+                url: '/addTodo',
+                method: 'POST',
+                contentType: 'application/json',
                 //CSRF Protection
-                beforeSend: function(xhr) {
+                beforeSend: function (xhr) {
                     xhr.setRequestHeader(header, token);
                 },
                 success: function (data) {
                     console.log(data)
-                    setTimeout(function(){
+                    setTimeout(function () {
                         location.reload();
                     }, 100);
                 }
                 ,
-                error:function (id) {
-                    console.log("cannot add" +this.data);
-                   alert("TODO couldn't add");
+                error: function (id) {
+                    console.log("cannot add" + this.data);
+                    alert("TODO couldn't add");
                 }
             });
         }
@@ -107,19 +106,19 @@ $(document).ready(function () {
     $('.done-button').click(function () {
         const id = $(this).val();
         $.ajax({
-            url:'/todo/' + id,
+            url: '/todo/' + id,
             method: 'PUT',
             //CSRF Protection
-            beforeSend: function(xhr) {
+            beforeSend: function (xhr) {
                 xhr.setRequestHeader(header, token);
             },
             success: function () {
                 console.log("done: " + id);
-                setTimeout(function(){
+                setTimeout(function () {
                     location.reload();
                 }, 100);
             },
-            error:function (id) {
+            error: function (id) {
                 console.log("cannot done" + id);
             }
         })
@@ -128,20 +127,20 @@ $(document).ready(function () {
     $('.delay-button').click(function () {
         const id = $(this).val();
         $.ajax({
-            url:'/todoDelay/' + id,
+            url: '/todoDelay/' + id,
             async: false,
             method: 'PUT',
             //CSRF Protection
-            beforeSend: function(xhr) {
+            beforeSend: function (xhr) {
                 xhr.setRequestHeader(header, token);
             },
             success: function () {
                 console.log("delayed: " + id);
-                setTimeout(function(){
+                setTimeout(function () {
                     location.reload();
                 }, 100);
             },
-            error:function (id) {
+            error: function (id) {
                 console.log("cannot delayed" + id);
             }
         })
@@ -150,20 +149,20 @@ $(document).ready(function () {
     $('.delete-button').click(function () {
         const id = $(this).val();
         $.ajax({
-            url:'/todoDelete/' + id,
+            url: '/todoDelete/' + id,
             method: 'DELETE',
             contentType: 'application/json',
             //CSRF Protection
-            beforeSend: function(xhr) {
+            beforeSend: function (xhr) {
                 xhr.setRequestHeader(header, token);
             },
             success: function () {
                 console.log("deleted: " + id);
-                setTimeout(function(){
+                setTimeout(function () {
                     location.reload();
                 }, 100);
             },
-            error:function (id) {
+            error: function (id) {
                 console.log("cannot deleted" + id);
             }
         })
@@ -174,14 +173,14 @@ $(document).ready(function () {
         const password = $('#addUserPassword').val();
         const role = $('#addUserRole').val();
         var obj = {
-            username:username,
-            password:password,
-            role:role
+            username: username,
+            password: password,
+            role: role
         };
-        if (!$.trim(username)){
+        if (!$.trim(username)) {
             alert("Enter a valid username");
         }
-        else if(!$.trim(password)){
+        else if (!$.trim(password)) {
             alert("Enter a valid password");
         }
         else {
@@ -191,13 +190,13 @@ $(document).ready(function () {
                 contentType: 'application/json',
                 data: JSON.stringify(obj),
                 //CSRF Protection
-                beforeSend: function(xhr) {
+                beforeSend: function (xhr) {
                     xhr.setRequestHeader(header, token);
                 },
                 success: function (data) {
                     console.log(data)
-                    setTimeout(function () {// wait for 5 secs(2)
-                        location.reload(); // then reload the page.(3)
+                    setTimeout(function () {
+                        location.reload(); 
                     }, 100);
                 }
                 ,
@@ -212,25 +211,25 @@ $(document).ready(function () {
     $('.change-role-button').click(function () {
         const username = $(this).val();
         const logged = $('#todoUsername').val();
-        if (username != logged){
+        if (username != logged) {
             $.ajax({
-                url:'/changeRole/' + username,
+                url: '/changeRole/' + username,
                 method: 'PUT',
                 //CSRF Protection
-                beforeSend: function(xhr) {
+                beforeSend: function (xhr) {
                     xhr.setRequestHeader(header, token);
                 },
                 success: function () {
                     console.log("changed role of : " + username);
-                    setTimeout(function(){
+                    setTimeout(function () {
                         location.reload();
                     }, 100);
                 },
-                error:function (id) {
+                error: function (id) {
                     console.log("cannot change role of " + username);
                 }
             })
-        }else{
+        } else {
             alert("You cannot change your role!");
         }
 
@@ -240,26 +239,26 @@ $(document).ready(function () {
         const username = $(this).val();
         const logged = $('#todoUsername').val();
         console.log(logged)
-        if (username.localeCompare(logged) !== 0){
+        if (username.localeCompare(logged) !== 0) {
             $.ajax({
-                url:'/userDelete/' + username,
+                url: '/userDelete/' + username,
                 method: 'DELETE',
                 contentType: 'application/json',
                 //CSRF Protection
-                beforeSend: function(xhr) {
+                beforeSend: function (xhr) {
                     xhr.setRequestHeader(header, token);
                 },
                 success: function () {
                     console.log("deleted: " + username);
-                    setTimeout(function(){// wait for 5 secs(2)
-                        location.reload(); // then reload the page.(3)
+                    setTimeout(function () {
+                        location.reload(); 
                     }, 100);
                 },
-                error:function (id) {
+                error: function (id) {
                     console.log("cannot deleted" + username);
                 }
             })
-        }else {
+        } else {
             alert("You cannot delete yourself!")
         }
 
@@ -268,7 +267,7 @@ $(document).ready(function () {
 //Format transition for Java LocalDate
 function formatDate(date) {
     var day = date.getDate();
-    var month =date.getMonth();
+    var month = date.getMonth();
     var year = date.getFullYear();
     month++;
     if (month < 10)

@@ -8,6 +8,7 @@ import java.time.LocalDate;
 @Entity
 @Table
 //Lombok usage for readable code
+//For compile the code, have to install lombok plugin
 public @Data class TodoItemEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

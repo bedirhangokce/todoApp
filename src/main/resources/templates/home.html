@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,66 +11,66 @@
             margin-top: 50px;
         }
     </style>
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
+
 <body>
-<section id="header">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">TODOS</a>
-        <button class="navbar-toggler" type="button"
-                data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </nav>
-</section>
-<section id="todocontainer">
-    <h2 style="padding-top: 30px; padding-bottom: 20px;" class="text-center">Welcome to Todo Manager</h2>
-    <div class="d-flex justify-content-center">
-        <form th:action="@{/index}" method="GET" enctype="multipart/form-data">
-            <div class="form-group">
-                <button type="submit" class="btn btn-success btn-lg text-white">View Todos</button>
-            </div>
-        </form>
+    <section id="header">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">TODOS</a>
+        </nav>
+    </section>
+    <section id="todocontainer">
+        <h2 style="padding-top: 30px; padding-bottom: 20px;" class="text-center">Welcome to Todo Manager</h2>
+        <div class="d-flex justify-content-center">
+            <form th:action="@{/index}" method="GET" enctype="multipart/form-data">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-lg text-white">View Todos</button>
+                </div>
+            </form>
+        </div>
+
+    </section>
+
+    <!-- Kurallar ve tanıtım-->
+    <div style="margin-top: 20px">
+        <div class="d-flex justify-content-center">
+            <a class="btn btn-success btn-lg text-white" data-toggle="modal" data-target="#readme">KURALLAR</a>
+        </div>
     </div>
 
-</section>
-<div id="createUser" style="margin-top: 20px">
-    <div class="d-flex justify-content-center">
-        <a class="btn btn-success btn-lg text-white" data-toggle="modal" data-target="#readme">KURALLAR</a>
-    </div>
-</div>
-
-<div class="modal fade" id="readme" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"  aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">KURALLAR</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <h3>Admin olarak giriş yaptığınızda:</h3>
+    <div class="modal fade" id="readme" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">KURALLAR</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h3>Admin olarak giriş yaptığınızda</h3>
                     <ol>
                         <li>TODOlar üzerinde değişiklik yapamazsınız.</li>
                         <li>Yeni TODO oluşturamazsınız</li>
                         <li>Kendinizi silemezsiniz veya rolünüzü değiştiremezsiniz.</li>
                         <li>Bir kullanıcıyı sildiğinizde onun oluşturduğu TODOlar da silinmiş olur.</li>
+                        <li>Bir kullanıcının rolünü admin yapıtğınızda TODOlar silinmez ama tekrar kullanıcı olana kadar değiştirilemez olur.</li>
                     </ol>
-                <h3>User olarak giriş yaptığınızda:</h3>
-                <ol>
-                    <li>Sadece kendi TODOlarınızı görebilir ve değiştirebilirsiniz.</li>
-                    <li>Adminler TODOlarınızı görebilir ama değiştiremez.</li>
-                </ol>
+                    <h3>User olarak giriş yaptığınızda</h3>
+                    <ol>
+                        <li>Sadece kendi TODOlarınızı görebilir ve değiştirebilirsiniz.</li>
+                        <li>Adminler TODOlarınızı görebilir ama değiştiremez.</li>
+                    </ol>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<script src="js/jquery.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="js/bootstrap.js"></script>
-<script src="js/todo.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/todo.js"></script>
 </body>
+
 </html>

@@ -111,6 +111,7 @@
     .form-label-group>label {
         display: none;
     }
+
     .form-label-group input::-ms-input-placeholder {
         color: #777;
     }
@@ -124,6 +125,7 @@
     .form-label-group>label {
         display: none;
     }
+
     .form-label-group input:-ms-input-placeholder {
         color: #777;
     }

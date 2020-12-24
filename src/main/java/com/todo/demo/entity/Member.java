@@ -8,6 +8,7 @@ import javax.validation.constraints.NotEmpty;
 
 @Entity
 //Lombok usage for readable code
+//For compile the code, have to install lombok plugin
 public @Data class Member {
     @Id
     @NotEmpty

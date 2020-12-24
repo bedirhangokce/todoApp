@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
 <head>
     <meta charset="UTF-8">
     <title>Todo APP</title>
@@ -11,79 +12,67 @@
     <!--
     CSRF token for ajax calls
      -->
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
 </head>
+
 <body>
-
-<!--HEADER-->
-<section id="header">
-<nav style="margin-bottom: 20px" class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand">Welcome <span id="username-value" sec:authentication="name">Username</span> |
-        <span th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"> You are an ADMIN</span>
-        <span th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">You are a USER</span>
-
-        <input id="user-role"
-               type="text"
-               style="display: none"
-               th:value="${#authentication.principal.authorities}" />
-        <input class="form-control"
-               type="text"
-               style="display: none"
-               th:value="${#authentication.getPrincipal().getUsername()}" id="todoUsername" name="todoUsername" />
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
+    <!--HEADER-->
+    <section id="header">
+        <nav style="margin-bottom: 20px" class="navbar navbar-expand-sm navbar-light bg-light justify-content-between">
+            <a class="navbar-brand">Welcome <span id="username-value" sec:authentication="name">Username</span> |
+                <span th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"> You are an ADMIN</span>
+                <span th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">You are a USER</span>
+                <!--Username and role-->
+                <input id="user-role" type="text" style="display: none"
+                    th:value="${#authentication.principal.authorities}" />
+                <input class="form-control" type="text" style="display: none"
+                    th:value="${#authentication.getPrincipal().getUsername()}" id="todoUsername" name="todoUsername" />
+            </a>
+            <div id="logout">
                 <form action="/logout" method="post">
-                    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                    <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
                     <input class="form-control" type="submit" value="Logout" />
                 </form>
-            </li>
-        </ul>
-    </div>
-</nav>
-</section>
-<!--Create new todos (USER only)-->
-<div th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}" class="modal fade" id="viewAddTodo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">ADD TODO</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
-            <div class="modal-body">
-                <form >
+        </nav>
+    </section>
+    <!--Create new todos (USER only)-->
+    <div th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}" class="modal fade" id="viewAddTodo"
+        tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">ADD TODO</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
 
-                    <div class="form-group">
-                        <label for="description">What are you planning to do?</label>
-                        <input type="text" class="form-control" id="description" placeholder="Enter Todo">
-                        <label for="date-value">When?</label>
-                        <input type="date" class="form-control"  id="date-value">
-                        <!--Get logged in user name-->
+                        <div class="form-group">
+                            <label for="description">What are you planning to do?</label>
+                            <input type="text" class="form-control" id="description" placeholder="Enter Todo">
+                            <label for="date-value">When?</label>
+                            <input type="date" class="form-control" id="date-value">
 
-                    </div>
-                    <div class="form-group">
-                        <label for="statusSelect" >Status</label>
-                        <select class="form-control" id="statusSelect">
-                        <option value="UNDONE">Undone</option>
-                        <option value="DELAYED">Delayed</option>
-                        <option value="DONE">Done</option>
-                    </select>
-                    </div>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <a type="submit" class="btn btn-primary todo-button">Add TODO</a>
-                </form>
+                        </div>
+                        <div class="form-group">
+                            <label for="statusSelect">Status</label>
+                            <select class="form-control" id="statusSelect">
+                                <option value="UNDONE">Undone</option>
+                                <option value="DELAYED">Delayed</option>
+                                <option value="DONE">Done</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <a type="submit" class="btn btn-primary todo-button">Add TODO</a>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
     <!--TODOS table-->
     <div class="row">
         <div class="col-md-8">
@@ -101,135 +90,145 @@
             </div>
             <table id="todoTable" class="table table-striped" cellspacing="0" width="100%">
                 <thead>
-                <tr>
-                    <th class="th-sm" scope="col">Id</th>
-                    <th class="th-sm todo" scope="col">Todo</th>
-                    <th class="th-sm" scope="col">Create</th>
-                    <th class="th-sm" scope="col">Deadline</th>
-                    <th th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="th-sm" scope="col">Owner</th>
-                    <th class="th-sm" scope="col">Status</th>
-                    <th th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}" class="th-sm" scope="col">Update</th>
-                    <th th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}" class="th-sm" scope="col">Delay</th>
-                    <th th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}" class="th-sm" scope="col">Delete</th>
-                </tr>
+                    <tr>
+                        <th class="th-sm" scope="col">Id</th>
+                        <th class="th-sm todo" scope="col">Todo</th>
+                        <th class="th-sm" scope="col">Create</th>
+                        <th class="th-sm" scope="col">Deadline</th>
+                        <th th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="th-sm" scope="col">
+                            Owner</th>
+                        <th class="th-sm" scope="col">Status</th>
+                        <th th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}" class="th-sm" scope="col">
+                            Update</th>
+                        <th th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}" class="th-sm" scope="col">
+                            Delay</th>
+                        <th th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}" class="th-sm" scope="col">
+                            Delete</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr th:each="todo : ${todos}">
-                    <th scope="row" th:text=${todo.id}></th>
-                    <td th:text=${todo.description}></td>
-                    <td th:text=${todo.createDate}></td>
-                    <td th:text=${todo.date}></td>
-                    <td th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" th:text=${todo.owner}></td>
+                    <tr th:each="todo : ${todos}">
+                        <th scope="row" th:text=${todo.id}></th>
+                        <td th:text=${todo.description}></td>
+                        <td th:text=${todo.createDate}></td>
+                        <td th:text=${todo.date}></td>
+                        <td th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" th:text=${todo.owner}></td>
 
-                    <td th:text=${todo.status.name()}></td>
-                    <td th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">
-                        <form>
-                            <div>
-                                <button type="button" th:value=${todo.id} class="btn btn-success btn-sm text-white done-button">Done!</button>
-                            </div>
-                        </form>
-                    </td>
-                    <td th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">
-                        <form>
-                            <div>
-                                <button type="button" th:value=${todo.id} class="btn btn-sm btn-warning text-white delay-button">Delay</button>
-                            </div>
-                        </form>
-                    </td>
-                    <td th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">
-                        <form style="width: 7vw" >
-                            <div>
-                                <button type="button" th:value=${todo.id} class="btn btn-danger btn-sm text-white delete-button">Delete</button>
-                            </div>
-                        </form>
-                    </td>
-                </tr>
+                        <td th:text=${todo.status.name()}></td>
+                        <td th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">
+                            <form>
+                                <div>
+                                    <button type="button" th:value=${todo.id}
+                                        class="btn btn-success btn-sm text-white done-button">Done!</button>
+                                </div>
+                            </form>
+                        </td>
+                        <td th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">
+                            <form>
+                                <div>
+                                    <button type="button" th:value=${todo.id}
+                                        class="btn btn-sm btn-warning text-white delay-button">Delay</button>
+                                </div>
+                            </form>
+                        </td>
+                        <td th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">
+                            <form style="width: 7vw">
+                                <div>
+                                    <button type="button" th:value=${todo.id}
+                                        class="btn btn-danger btn-sm text-white delete-button">Delete</button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
-            <div class="d-flex justify-content-center add-todo" th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">
-                <a class="btn btn-success btn-lg text-white" data-toggle="modal" data-target="#viewAddTodo">Add New Todo</a>
+            <div class="d-flex justify-content-center add-todo"
+                th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">
+                <a class="btn btn-success btn-lg text-white" data-toggle="modal" data-target="#viewAddTodo">Add New
+                    Todo</a>
             </div>
         </div>
     </div>
+    <!--USER table (ADMIN only)-->
+    <div class="row user-list" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+        <div class="col-md-8">
+            <table id="datatab" class="table table-striped table-sm" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th class="th-sm" scope="col">Username</th>
+                        <th class="th-sm" scope="col">Password</th>
+                        <th class="th-sm" scope="col">Role</th>
+                        <th class="th-sm" scope="col">Change Role</th>
+                        <th class="th-sm" scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="users : ${users}">
+                        <td th:text=${users.username}></td>
+                        <td th:text=${users.password}></td>
+                        <td th:text=${users.role}> </td>
+                        <td>
+                            <form style="">
+                                <div>
+                                    <button type="button" th:value=${users.username}
+                                        class="btn btn-warning btn-sm text-white change-role-button">Change</button>
+                                </div>
+                            </form>
+                        </td>
+                        <td>
+                            <form style="">
+                                <div>
+                                    <button type="button" th:value=${users.username}
+                                        class="btn btn-danger btn-sm text-white delete-user-button">Delete</button>
+                                </div>
+                            </form>
+                        </td>
 
-<!--USER table-->
-<div class="row user-list" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
-    <div class="col-md-8">
-        <table id="datatab" class="table table-striped table-sm" cellspacing="0" width="100%">
-            <thead>
-            <tr>
-                <th class="th-sm" scope="col">Username</th>
-                <th class="th-sm" scope="col">Password</th>
-                <th class="th-sm" scope="col">Role</th>
-                <th class="th-sm" scope="col">Change Role</th>
-                <th class="th-sm" scope="col">Delete</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="users : ${users}">
-                <td th:text=${users.username}></td>
-                <td th:text=${users.password}></td>
-                <td th:text=${users.role}> </td>
-                <td>
-                    <form style="" >
-                        <div>
-                            <button type="button" th:value=${users.username} class="btn btn-warning btn-sm text-white change-role-button">Change</button>
-                        </div>
-                    </form>
-                </td>
-                <td>
-                    <form style="" >
-                        <div>
-                            <button type="button" th:value=${users.username} class="btn btn-danger btn-sm text-white delete-user-button">Delete</button>
-                        </div>
-                    </form>
-                </td>
-
-            </tr>
-            </tbody>
-        </table>
-        <div id="createUser" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
-            <div class="d-flex justify-content-center">
-                <a class="btn btn-success btn-lg text-white" data-toggle="modal" data-target="#viewAddUser">Add New User</a>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="createUser" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                <div class="d-flex justify-content-center">
+                    <a class="btn btn-success btn-lg text-white" data-toggle="modal" data-target="#viewAddUser">Add New
+                        User</a>
+                </div>
             </div>
-        </div>
-
-        <div class="modal fade" id="viewAddUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
-             th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">ADD USER</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form >
-                            <div class="form-group">
-                                <label for="addUserUsername">Username</label>
-                                <input type="text" class="form-control" id="addUserUsername" name="todoItem" placeholder="Enter Username">
-                                <label for="addUserPassword">Password</label>
-                                <input type="password" class="form-control" id="addUserPassword" name="todoItem" placeholder="Enter Password">
-                            </div>
-                            <div class="form-group">
-                                <label >Role</label>
-                                <select class="form-control" id="addUserRole">
-                                    <option>USER</option>
-                                    <option>ADMIN</option>
-                                </select>
-                            </div>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <a type="submit" class="btn btn-primary" id="user-button">Add User</a>
-                        </form>
+            <div class="modal fade" id="viewAddUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">ADD USER</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="addUserUsername">Username</label>
+                                    <input type="text" class="form-control" id="addUserUsername" name="todoItem"
+                                        placeholder="Enter Username">
+                                    <label for="addUserPassword">Password</label>
+                                    <input type="password" class="form-control" id="addUserPassword" name="todoItem"
+                                        placeholder="Enter Password">
+                                </div>
+                                <div class="form-group">
+                                    <label>Role</label>
+                                    <select class="form-control" id="addUserRole">
+                                        <option>USER</option>
+                                        <option>ADMIN</option>
+                                    </select>
+                                </div>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <a type="submit" class="btn btn-primary" id="user-button">Add User</a>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
-
-</div>
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
@@ -237,4 +236,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
+
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
 <head>
 	<title>Login </title>
 	<link href="css/bootstrap.css" rel="stylesheet" />
@@ -21,16 +22,17 @@
 					</div>
 					<form class="form-signin" th:action="@{/login}" method="post">
 						<div class="form-group">
-							<label >Username</label>
+							<label>Username</label>
 							<input type="text" class="form-control" name="username" placeholder="Username">
 						</div>
 
 						<div class="form-group">
 							<label for="inputPassword">Password</label>
-							<input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password">
+							<input type="password" id="inputPassword" name="password" class="form-control"
+								placeholder="Password">
 
 						</div>
-						<button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+						<button class="btn btn-lg btn-secondary btn-block text-uppercase" type="submit">Sign in</button>
 						<hr class="my-4">
 					</form>
 				</div>
@@ -39,10 +41,10 @@
 	</div>
 </div>
 
-
-<div id="createUser">
+<!-- Default users table-->
+<div>
 	<div class="d-flex justify-content-center">
-		<a class="btn btn-primary btn-lg text-white" data-toggle="modal" data-target="#users">Default Users</a>
+		<a class="btn btn-success btn-lg text-white" data-toggle="modal" data-target="#users">Default Users</a>
 	</div>
 </div>
 
@@ -58,34 +60,34 @@
 			<div class="modal-body">
 				<table class="table">
 					<thead>
-					<tr>
-						<td>Username</td>
-						<td>Password</td>
-						<td>Role</td>
-					</tr>
+						<tr>
+							<td>Username</td>
+							<td>Password</td>
+							<td>Role</td>
+						</tr>
 
 					</thead>
 					<tbody>
-					<tr>
-						<td>bedo</td>
-						<td>bedo</td>
-						<td>ADMIN</td>
-					</tr>
-					<tr>
-						<td>admin</td>
-						<td>admin</td>
-						<td>ADMIN</td>
-					</tr>
-					<tr>
-						<td>user</td>
-						<td>user</td>
-						<td>USER</td>
-					</tr>
-					<tr>
-						<td>user2</td>
-						<td>user2</td>
-						<td>USER</td>
-					</tr>
+						<tr>
+							<td>bedo</td>
+							<td>bedo</td>
+							<td>ADMIN</td>
+						</tr>
+						<tr>
+							<td>admin</td>
+							<td>admin</td>
+							<td>ADMIN</td>
+						</tr>
+						<tr>
+							<td>user</td>
+							<td>user</td>
+							<td>USER</td>
+						</tr>
+						<tr>
+							<td>user2</td>
+							<td>user2</td>
+							<td>USER</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>
@@ -98,4 +100,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
+
 </html>
